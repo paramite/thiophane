@@ -1,0 +1,2 @@
+OpenStack installation utility using Kanzo, Puppet and Puppet manifests from tripleo-heat-templates
+(a.k.a. THT - from which the project name comes from) to perform deployment steps.
