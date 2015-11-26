@@ -5,11 +5,14 @@
 import kanzo
 import os
 
+
 PROJECT_DIR = os.path.dirname(__file__)
 PROJECT_NAME = 'Thiophane'
 PROJECT_TEMPDIR = '/var/tmp/thiophane'
+# please pardon a little hack
+PROJECT_RUN_TIMESTAMP = kanzo.conf.defaultproject._timestamp
 PROJECT_RUN_TEMPDIR = os.path.join(
-    PROJECT_TEMPDIR, kanzo.conf.defaultproject._timestamp
+    PROJECT_TEMPDIR, 'deployment-{0}'.format(PROJECT_RUN_TIMESTAMP)
 )
 
 # SSH connection settings
