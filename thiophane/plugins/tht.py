@@ -14,7 +14,7 @@ def processor(value, key, config):
     """..."""
 
 
-PRIORITY = 50
+#-------------------------------- plugin data ---------------------------------#
 CONFIGURATION = [
     {'name': 'section/parameter',
      'usage': '',

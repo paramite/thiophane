@@ -29,7 +29,17 @@ DEFAULT_ANSWER_FILE = (
 def status_reporter(unit_type, unit_name, unit_status, additional=None):
     """Function for reporting installation state"""
     #TO-DO: finish this
-
+    unit_name = unit_name.replace('_', ' ').capitalize()
+    if unit_type == 'phase' and unit_status == 'start':
+        caption = ' {unit_name} {unit_type} '.format(**locals())
+        space = max(0, 80 - len(caption))
+        click.echo(
+            caption.ljust(
+                len(caption) + int(space / 2), '='
+            ).rjust(
+                len(caption) + space, '='
+            )
+        )
 
 @click.group()
 @click.option(

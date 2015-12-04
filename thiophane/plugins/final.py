@@ -5,7 +5,7 @@
 Plugin for finalizing deployment.
 """
 
-PRIORITY = 100
+#-------------------------------- plugin data ---------------------------------#
 CONFIGURATION = [
     {'name': 'section/variable',
      'usage': '',
