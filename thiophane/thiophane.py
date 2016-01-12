@@ -15,6 +15,7 @@ project.load(
 from kanzo.conf import Config
 from kanzo.core import controller
 from kanzo.core import main as kanzo_main
+from kanzo.utils.shortcuts import normalize_path
 
 
 DEFAULT_ANSWER_FILE_PREFIX = 'thiophane-answers'
@@ -44,6 +45,7 @@ def status_reporter(unit_type, unit_name, unit_status, additional=None):
 @click.group()
 @click.option(
     '-d', '--debug',
+    is_flag=True,
     default=False,
     help='run deployment in debug mode'
 )
@@ -74,14 +76,9 @@ def generate_answer_file(ctx, answer_file):
     default=300,
     help='maximum count of seconds each deployment step should take'
 )
-@click.option(
-    '-w', '--work-dir',
-    default='~/.thiophane',
-    help='temporary directory for deployment files'
-)
 @click.argument('answer_file', required=False)
 @click.pass_context
-def run_with_answer_file(ctx, answer_file, log, timeout, work_dir):
+def run_with_answer_file(ctx, answer_file, log, timeout):
     """Run deployment with given answer file. If none was given the latest
     one from current working directory is used.
     """
@@ -99,19 +96,21 @@ def run_with_answer_file(ctx, answer_file, log, timeout, work_dir):
         except IndexError:
             click.echo('No answer file was given and none was found in CWD.')
             sys.exit(1)
-
+    log = normalize_path(log)
+    os.makedirs(os.path.dirname(log), mode=0o700, exist_ok=True)
+    if not os.path.exists(log):
+        os.close(os.open(log, mode=0o600))
     kanzo_main.main(
         answer_file,
         log_path=os.path.expanduser(log),
         debug=ctx.obj['DEBUG'],
         timeout=timeout,
         reporter=status_reporter,
-        work_dir=work_dir,
     )
 
 @cli.command('all-in-one')
 @click.pass_context
-def run_with_answer_file(ctx):
+def run_all_in_one(ctx):
     """Run default a.k.a all-in-one deployment."""
     generate_answer_file()
     run_with_answer_file()

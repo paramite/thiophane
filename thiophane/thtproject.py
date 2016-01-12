@@ -117,8 +117,5 @@ PLUGINS = [
     'final'
 ]
 
-# If SET_LOGGING is True Kanzo will setup logging to given file, otherwise user
-# has to setup logging for 'kanzo.backend' logger himself/herself
+# We want to set logging, but all logging parameters will be set from CLI
 SET_LOGGING = True
-LOG_FILE = '/var/log/kanzo.log'
-LOG_LEVEL = 'INFO'
