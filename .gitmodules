@@ -1,0 +1,3 @@
+[submodule "tripleo-heat-templates"]
+	path = tripleo-heat-templates
+	url = https://github.com/openstack/tripleo-heat-templates.git

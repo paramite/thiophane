@@ -63,23 +63,6 @@ PUPPET_DEPENDENCY_COMMANDS = [
     'apt-get install -y tar',  # Debian based distros
 ]
 
-PUPPET_CONFIG = '''
-[main]
-basemodulepath={moduledir}
-logdir={logdir}
-'''
-
-HIERA_CONFIG = '''
----
-:backends:
-  - yaml
-:yaml:
-  :datadir: {datadir}
-:hierarchy:
-  - "%{{::fqdn}}"
-  - config
-'''
-
 # Configuration files for Puppet
 # Content variable host is internal variable.
 # All other variables are formated from PUPPET_CONFIGURATION_VALUES dictionary
@@ -102,7 +85,16 @@ PUPPET_CONFIGURATION_VALUES = {
 
 # List of root directories where manifest fragments will be searched in.
 PUPPET_MANIFEST_TEMPLATE_DIRS = [
-    os.path.join(PROJECT_DIR, 'manifests'),
+    os.path.normpath(
+        os.path.join(
+            PROJECT_DIR,
+            '..',
+            'tripleo-heat-templates',
+            'puppet',
+            'manifests'
+        )
+    ),
+    '/usr/share/openstack-tripleo-heat-templates/puppet/manifests',
 ]
 
 # List of paths where project plugins are located
